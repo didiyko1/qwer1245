@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Калькулятор біологічного віку Івановича</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      background-color: #fcfcfc;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    label, input {
+      display: block;
+      margin-bottom: 15px;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1e8449;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #333;
+      text-align: center;
+    }
+    #group {
+      font-size: 18px;
+      text-align: center;
+      color: #555;
+      margin-top: 10px;
+    }
+    table {
+      margin-top: 30px;
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #aaa;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #eee;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Калькулятор біологічного віку за Івановичем</h1>
+
+  <h2>📐 Формула:</h2>
+  <p style="font-size: 18px; text-align: center;">
+    <strong>Біологічний вік = 0.15 × D + 1.5 × P + 0.05 × (W − 60) + 16</strong>
+  </p>
+
+  <label for="d">D — Відстань від соска до верхнього краю вульви (см):</label>
+  <input type="number" id="d" step="0.1" required>
+
+  <label for="p">P — Кількість пологів:</label>
+  <input type="number" id="p" step="1" required>
+
+  <label for="w">W — Маса тіла жінки (кг):</label>
+  <input type="number" id="w" step="0.1" required>
+
+  <button onclick="calculateAge()">Розрахувати вік</button>
+
+  <div id="result"></div>
+  <div id="group"></div>
+
+  <h2>📘 Пояснення змінних:</h2>
+  <table>
+    <tr><th>Позначення</th><th>Значення</th></tr>
+    <tr><td><strong>D</strong></td><td>Відстань від соска до верхнього краю вульви (в сантиметрах)</td></tr>
+    <tr><td><strong>P</strong></td><td>Кількість пологів</td></tr>
+    <tr><td><strong>W</strong></td><td>Маса тіла жінки в кілограмах</td></tr>
+    <tr><td><strong>0.15</strong></td><td>Помірна ставка за кожен см провисання — показник втрати тонусу тканин</td></tr>
+    <tr><td><strong>1.5</strong></td><td>Вікова ставка за кожен повноцінний анамнез пологів</td></tr>
+    <tr><td><strong>0.05</strong></td><td>Надбавка за кожен кг понад еталонні 60 кг</td></tr>
+    <tr><td><strong>16</strong></td><td>Базовий показник біологічного віку нульпари з ідеальними параметрами</td></tr>
+  </table>
+
+  <script>
+    function calculateAge() {
+      const D = parseFloat(document.getElementById('d').value);
+      const P = parseFloat(document.getElementById('p').value);
+      const W = parseFloat(document.getElementById('w').value);
+
+      if (isNaN(D) || isNaN(P) || isNaN(W)) {
+        document.getElementById('result').textContent = "Будь ласка, заповніть усі поля коректно.";
+        document.getElementById('group').textContent = "";
+        return;
+      }
+
+      const age = (0.15 * D) + (1.5 * P) + (0.05 * (W - 60)) + 16;
+      let group = "";
+
+      if (age < 22) group = "🟢 Біологічна група: Юна";
+      else if (age < 30) group = "🟡 Біологічна група: Стигла";
+      else if (age < 38) group = "🟠 Біологічна група: Зріла";
+      else if (age < 46) group = "🔴 Біологічна група: Мудра";
+      else group = "💫 Біологічна група: Божественна";
+
+      document.getElementById('result').textContent = `🔎 Біологічний вік: ${age.toFixed(2)} років`;
+      document.getElementById('group').textContent = group;
+    }
+  </script>
+
+</body>
+</html>
